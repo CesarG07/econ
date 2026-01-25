@@ -64,28 +64,28 @@ export function TransactionForm() {
           </TabsList>
 
           <TabsContent value="expense">
-            <FormContent
+            <TransactionFormContent
               type="expense"
               label="Nuevo Gasto"
               onSubmit={(t) => addTransaction("expense", t)}
             />
           </TabsContent>
           <TabsContent value="income">
-            <FormContent
+            <TransactionFormContent
               type="income"
               label="Nuevo Ingreso"
               onSubmit={(t) => addTransaction("income", t)}
             />
           </TabsContent>
           <TabsContent value="pending">
-            <FormContent
+            <TransactionFormContent
               type="pending"
               label="Pago Pendiente"
               onSubmit={(t) => addTransaction("pending", t)}
             />
           </TabsContent>
           <TabsContent value="initial">
-            <FormContent
+            <TransactionFormContent
               type="initial"
               label="Ajuste Saldo"
               onSubmit={(t) => addTransaction("initial", t)}
@@ -97,37 +97,43 @@ export function TransactionForm() {
   );
 }
 
-function FormContent({
+export function TransactionFormContent({
   label,
   onSubmit,
+  initialData,
+  buttonLabel,
 }: {
-  type: TransactionType;
+  type?: TransactionType;
   label: string;
   onSubmit: (t: Transaction) => void;
+  initialData?: Transaction;
+  buttonLabel?: string;
 }) {
-  const [amount, setAmount] = useState("");
-  const [date, setDate] = useState<Date | undefined>(new Date());
-  const [tag, setTag] = useState("");
-  const [desc, setDesc] = useState("");
+  const [amount, setAmount] = useState(initialData?.amount.toString() || "");
+  const [date, setDate] = useState<Date | undefined>(
+    initialData ? new Date(initialData.date) : new Date(),
+  );
+  const [tag, setTag] = useState(initialData?.label || "");
+  const [desc, setDesc] = useState(initialData?.description || "");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!amount || !date || !tag) return;
 
-    const newTransaction: Transaction = {
-      id: crypto.randomUUID(),
+    const transaction: Transaction = {
+      id: initialData?.id || crypto.randomUUID(),
       amount: parseFloat(amount),
-      date: date.toISOString(), // Keep strict ISO
+      date: date.toISOString(),
       label: tag,
       description: desc,
     };
 
-    onSubmit(newTransaction);
-    // Reset
-    setAmount("");
-    setTag("");
-    setDesc("");
-    // Keep date or reset? Keep today.
+    onSubmit(transaction);
+    if (!initialData) {
+      setAmount("");
+      setTag("");
+      setDesc("");
+    }
   };
 
   return (
@@ -200,7 +206,13 @@ function FormContent({
       </div>
 
       <Button type="submit" className="w-full mt-4">
-        <Plus className="mr-2 h-4 w-4" /> Registrar {label}
+        {buttonLabel ? (
+          buttonLabel
+        ) : (
+          <>
+            <Plus className="mr-2 h-4 w-4" /> Registrar {label}
+          </>
+        )}
       </Button>
     </form>
   );

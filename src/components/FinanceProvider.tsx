@@ -12,6 +12,7 @@ interface FinanceContextType {
   data: FinanceData;
   addTransaction: (type: TransactionType, transaction: Transaction) => void;
   removeTransaction: (type: TransactionType, id: string) => void;
+  updateTransaction: (type: TransactionType, transaction: Transaction) => void;
   importData: (jsonData: string) => void;
   exportData: () => void;
   resetData: () => void;
@@ -28,14 +29,16 @@ export const FinanceProvider: React.FC<{ children: React.ReactNode }> = ({
   // Load from localStorage on mount
   useEffect(() => {
     const saved = localStorage.getItem("finance_data");
-    if (saved) {
-      try {
-        setData(JSON.parse(saved));
-      } catch (e) {
-        console.error("Failed to load local data", e);
+    setTimeout(() => {
+      if (saved) {
+        try {
+          setData(JSON.parse(saved));
+        } catch (e) {
+          console.error("Failed to load local data", e);
+        }
       }
-    }
-    setIsInitialized(true);
+      setIsInitialized(true);
+    }, 0);
   }, []);
 
   // Save on change
@@ -51,6 +54,21 @@ export const FinanceProvider: React.FC<{ children: React.ReactNode }> = ({
       return {
         ...prev,
         [targetKey]: [...prev[targetKey], transaction],
+      };
+    });
+  };
+
+  const updateTransaction = (
+    type: TransactionType,
+    transaction: Transaction,
+  ) => {
+    setData((prev) => {
+      const targetKey = mapTypeToKey(type);
+      return {
+        ...prev,
+        [targetKey]: prev[targetKey].map((t: Transaction) =>
+          t.id === transaction.id ? transaction : t,
+        ),
       };
     });
   };
@@ -102,6 +120,7 @@ export const FinanceProvider: React.FC<{ children: React.ReactNode }> = ({
       value={{
         data,
         addTransaction,
+        updateTransaction,
         removeTransaction,
         importData,
         exportData,

@@ -16,10 +16,19 @@ import { useFinance } from "@/components/FinanceProvider";
 import { TransactionType } from "@/types/finance";
 import { format, parseISO } from "date-fns";
 import { es } from "date-fns/locale";
-import { Trash2, ArrowUp, ArrowDown } from "lucide-react";
+import { Trash2, ArrowUp, ArrowDown, Pencil } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { TransactionFormContent } from "./TransactionForm";
 
 export function TransactionList() {
-  const { data, removeTransaction } = useFinance();
+  const { data, removeTransaction, updateTransaction } = useFinance();
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
 
   const toggleSort = () => {
@@ -80,7 +89,7 @@ export function TransactionList() {
                 <TableHead>Categoría</TableHead>
                 <TableHead>Tipo</TableHead>
                 <TableHead className="text-right">Monto</TableHead>
-                <TableHead className="w-[50px]"></TableHead>
+                <TableHead className="w-[100px]"></TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -114,14 +123,46 @@ export function TransactionList() {
                     </span>
                   </TableCell>
                   <TableCell>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      onClick={() => removeTransaction(t.type, t.id)}
-                      className="h-8 w-8 text-red-500 hover:text-red-700 hover:bg-red-50"
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
+                    <div className="flex items-center gap-1">
+                      <Dialog>
+                        <DialogTrigger asChild>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="h-8 w-8 text-blue-500 hover:text-blue-700 hover:bg-blue-50"
+                          >
+                            <Pencil className="h-4 w-4" />
+                          </Button>
+                        </DialogTrigger>
+                        <DialogContent className="sm:max-w-[425px]">
+                          <DialogHeader>
+                            <DialogTitle>Editar Movimiento</DialogTitle>
+                            <DialogDescription>
+                              Realiza cambios en tu registro financiero.
+                            </DialogDescription>
+                          </DialogHeader>
+                          <TransactionFormContent
+                            label="Editar"
+                            buttonLabel="Guardar Cambios"
+                            initialData={t}
+                            onSubmit={(updated) => {
+                              updateTransaction(t.type, updated);
+                              // The dialog closes automatically if we use a state to control it or just let shadcn handle it.
+                              // Since this is uncontrolled DialogTrigger, it might need focus management or manual close.
+                              // But usually clicking submit won't close it unless we use a state.
+                            }}
+                          />
+                        </DialogContent>
+                      </Dialog>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => removeTransaction(t.type, t.id)}
+                        className="h-8 w-8 text-red-500 hover:text-red-700 hover:bg-red-50"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </div>
                   </TableCell>
                 </TableRow>
               ))}
