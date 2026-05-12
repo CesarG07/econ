@@ -1,36 +1,64 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 💹 Econ - Gestión Financiera Inteligente
 
-## Getting Started
+**Econ** es una aplicación moderna de gestión de finanzas personales diseñada para ofrecer una visión clara y detallada de tu economía. Construida con tecnologías de vanguardia, permite rastrear ingresos y gastos con una interfaz intuitiva y elegante.
 
-First, run the development server:
+![Next.js](https://img.shields.io/badge/Next.js-black?style=for-the-badge&logo=next.js&logoColor=white)
+![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## ✨ Características Principales
+
+- 📊 **Resumen Financiero:** Visualiza tu balance total, ingresos y egresos de un vistazo.
+- 💸 **Gestión de Transacciones:** Registra y categoriza cada movimiento financiero fácilmente.
+- 🗓️ **Historial Detallado:** Listado organizado de transacciones para un seguimiento preciso.
+- 🌓 **Diseño Adaptable:** Interfaz moderna con soporte para temas claros y oscuros.
+- 📱 **Responsive:** Totalmente optimizado para dispositivos móviles y escritorio.
+
+## 🚀 Tecnologías Utilizadas
+
+- **Framework:** [Next.js 15+](https://nextjs.org/) (App Router)
+- **UI Components:** [Radix UI](https://www.radix-ui.com/) & [Lucide Icons](https://lucide.dev/)
+- **Estilos:** [Tailwind CSS](https://tailwindcss.com/)
+- **Estado:** React Context API (`FinanceProvider`)
+- **Lenguaje:** [TypeScript](https://www.typescriptlang.org/)
+
+## 🛠️ Estructura del Proyecto
+
+```text
+src/
+├── app/                # Rutas y páginas principales
+├── components/         # Componentes de la interfaz
+│   ├── dashboard/      # Componentes específicos del panel
+│   └── ui/             # Componentes base (shadcn/ui style)
+├── lib/                # Utilidades y lógica de negocio
+└── types/              # Definiciones de TypeScript
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🏁 Inicio Rápido
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Sigue estos pasos para ejecutar el proyecto localmente:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. **Clonar el repositorio:**
+   ```bash
+   git clone [url-del-repo]
+   cd econ
+   ```
 
-## Learn More
+2. **Instalar dependencias:**
+   ```bash
+   npm install
+   ```
 
-To learn more about Next.js, take a look at the following resources:
+3. **Ejecutar el servidor de desarrollo:**
+   ```bash
+   npm run dev
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+4. **Ver en el navegador:**
+   Abre [http://localhost:3000](http://localhost:3000) para ver el resultado.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+Desarrollado con ❤️ por Cesar Gutierrez.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
