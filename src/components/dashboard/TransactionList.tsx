@@ -56,6 +56,8 @@ export function TransactionList() {
     return sortOrder === "asc" ? dateA - dateB : dateB - dateA;
   });
 
+  const [editingId, setEditingId] = useState<string | null>(null);
+
   return (
     <Card className="w-full">
       <CardHeader>
@@ -124,7 +126,10 @@ export function TransactionList() {
                   </TableCell>
                   <TableCell>
                     <div className="flex items-center gap-1">
-                      <Dialog>
+                      <Dialog
+                        open={editingId === t.id}
+                        onOpenChange={(open) => setEditingId(open ? t.id : null)}
+                      >
                         <DialogTrigger asChild>
                           <Button
                             variant="ghost"
@@ -147,9 +152,7 @@ export function TransactionList() {
                             initialData={t}
                             onSubmit={(updated) => {
                               updateTransaction(t.type, updated);
-                              // The dialog closes automatically if we use a state to control it or just let shadcn handle it.
-                              // Since this is uncontrolled DialogTrigger, it might need focus management or manual close.
-                              // But usually clicking submit won't close it unless we use a state.
+                              setEditingId(null);
                             }}
                           />
                         </DialogContent>
